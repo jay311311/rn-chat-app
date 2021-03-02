@@ -1,15 +1,46 @@
-import React from "react";
+import React,{useState} from "react";
 import {StatusBar, Image} from "react-native";
-import {AppLoading} from "expo"
-import {Asset} from "expo"
+import AppLoading from "expo-app-loading";
+import {Asset} from "expo-asset";
+import * as Font from "expo-font";
 import {ThemeProvider} from "styled-components/native";
 import {theme} from "./theme";
 
+const cacheImage = images =>{
+  return images.map(image =>{
+    if(typeof image === "string"){
+      return Image.prefetch(image);
+    }else{
+      return Asset.fromModule(image).downloadAsync();
+    }
+  })
+}
+
+const cacheFonts = fonts=>{
+  return fonts.map(font => Font.loadAsync(font))
+};
+
+
 const App =()=>{
-  return(
+  const [isReady, setIsReady] = useState(false)
+  
+  const _loadAssets = async()=>{
+    const imageAssets = cacheImage([require("../assets/splash.png")])
+    const fontAssets = cacheFonts([])
+
+    await Promise.all([...imageAssets,...fontAssets])
+  }
+
+  return isReady ? (
     <ThemeProvider theme={theme}>
       <StatusBar barStyle="dark-content"/>
     </ThemeProvider>
+  ) : (
+    <AppLoading 
+      startAsync ={_loadAssets}
+      onFinish ={()=> setIsReady(true)}
+      onError={console.warn}
+    />
   )
 }
 
