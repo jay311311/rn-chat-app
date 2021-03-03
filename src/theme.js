@@ -1,6 +1,6 @@
 const colors={
     white:"#fff",
-    black:"000000",
+    black:"#000000",
     grey_0:"#d5d5d5",
     grey_1:"#a6a6a6",
     red:"#e84118",
@@ -9,9 +9,9 @@ const colors={
 
 export const theme = {
     background : colors.white,
-    text:colors.black,
+    text : colors.black,
     imageBackground: colors.grey_0,
-    label :colors.grey_1,
-    inputPlaceholder:colors.grey_1,
-    inpurtBorder:colors.grey_1,
+    label : colors.grey_1,
+    inputPlaceholder : colors.grey_1,
+    inpurtBorder : colors.grey_1,
 }
