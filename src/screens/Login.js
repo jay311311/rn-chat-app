@@ -4,7 +4,7 @@ import {Text,Button} from "react-native";
 import {Image, Input} from "../components"
 import {images} from "../utils/images"
 import {TouchableWithoutFeedback, Keyboard} from "react-native";
-
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 
 const Container = styled.View`
 flex :1;
@@ -21,7 +21,10 @@ const Login  = ({navigation}) => {
 
 
     return(
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAwareScrollView  
+            contentContainerStyle={{flex:1}}
+            extraScrollHeight={20}    
+        >
         <Container>
             <Text>Login Screen</Text>
             <Image url={images.logo} imageStyle={{borderRadius:8, width:100, height:100}}/>
@@ -45,7 +48,7 @@ const Login  = ({navigation}) => {
             />
             <Button title="SIGN-UP" onPress ={()=> navigation.navigate("Signup")}></Button>
         </Container>
-        </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
     )
 }
 export default Login; 
