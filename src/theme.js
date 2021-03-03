@@ -17,5 +17,6 @@ export const theme = {
     errorText:colors.red,
     buttonBackground:colors.blue,
     buttonTitle:colors.white,
-    buttonUnfilledTitle:colors.blue 
+    buttonUnfilledTitle:colors.blue, 
+    headerTintColor: colors.black,
 }

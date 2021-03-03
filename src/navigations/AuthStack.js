@@ -14,10 +14,19 @@ const AuthStack = ()=>{
             screenOptions={{
                 headerTitleAlign:"center",
                 cardStyle:{backgroundColor:theme.backgroundColor},
+                headerTintColor:theme.headerTintColor,
             }}
             >
-            <Stack.Screen name="Login" component={Login}/>
-            <Stack.Screen name="Signup" component={Signup}/>
+            <Stack.Screen 
+                name="Login" 
+                component={Login} 
+                options={{headerShown:false}} //헤더 감추기
+            />
+            <Stack.Screen 
+                name="Signup" 
+                component={Signup}
+                options={{headerBackTitleVisible:false}} //뒤로가기버튼의 타이틀(제목) 지우기
+            />
         </Stack.Navigator>
     )
 }
