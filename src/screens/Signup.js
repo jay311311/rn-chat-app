@@ -4,6 +4,7 @@ import {Text} from "react-native"
 import {Image, Input, Button} from "../components";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 import {validateEmail, removeWhitespace} from "../utils/common";
+import {images} from "../utils/images"
 
 
 const Container = styled.View`
@@ -11,7 +12,7 @@ flex:1;
 justify-content:center;
 align-items:center;
 background-color:${({ theme })=> theme.background};
-padding:0 20px;
+padding:40px 20px;
 `
 
 const ErrorText = styled.Text`
@@ -30,12 +31,16 @@ const Signup =()=>{
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [disabled, setDisabled] = useState(true);
+    const [photoUrl, setPhotoUrl] = useState(images.person);
+
 
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
+    const didMountRef = useRef();
 
     useEffect(()=>{
+        if(didMountRef.current){
         let _errorMessage = "";
         if(!name){
             _errorMessage = "PLEASE ENTER YOUR NAME"
@@ -49,6 +54,9 @@ const Signup =()=>{
             _errorMessage = "";
         } 
         setErrorMessage(_errorMessage);
+    }else{
+        didMountRef.current=true;
+    }
     },[name, email, password, passwordConfirm]);
 
     useEffect(()=>{
@@ -59,12 +67,16 @@ const Signup =()=>{
 
     return(
         <KeyboardAwareScrollView
-            contentContainerStyle={{flex : 1}}
             extraScrollHeight={20}
         >
             <Container>
                 <Text styled={{fontSize:30}}>signup Screen</Text>
-                <Image rounded />
+                <Image 
+                rounded 
+                url={photoUrl} 
+                showButton
+                onChangeImage={URL => setPhotoUrl(url)}
+                />
                 <Input
                 label="Name"
                 value={name}
@@ -100,7 +112,7 @@ const Signup =()=>{
                 ref={passwordConfirmRef}
                 label="Passwod Confirm"
                 value={passwordConfirm}
-                onChngeText={text => setPasswordConfirm(removeWhitespace(text))}
+                onChangeText={text => setPasswordConfirm(removeWhitespace(text))}
                 onSubmitEditing={_handleSignupButtonPress}
                 placeholder="password"
                 retutnKeyType="done"
