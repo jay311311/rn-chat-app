@@ -7,6 +7,8 @@ import {TouchableWithoutFeedback, Keyboard} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 import {validateEmail, removeWhitespace} from "../utils/common"
 import {useSafeAreaInsets} from "react-native-safe-area-context"
+import {Alert} from "react-native";
+import {login} from "../utils/firebase";
 
 const Container = styled.View`
 flex :1;
@@ -33,7 +35,7 @@ const Login  = ({navigation}) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [disabled, setDisabled] = useState(true)
     const passwordRef = useRef();
-    const _handleLoginButtonPress = () =>{};
+    
     const insets= useSafeAreaInsets();
 
     useEffect(()=>{
@@ -50,6 +52,16 @@ const Login  = ({navigation}) => {
         setPassword(removeWhitespace(password))
     }
 
+    const _handleLoginButtonPress = async() =>{
+        try{
+            const user= await login({email, password});
+            Alert.alert("login success", user.email)
+        }catch(e){
+            Alert.alert("login Error", e.message)
+        }
+
+    };
+    
     return(
         <KeyboardAwareScrollView  
             contentContainerStyle={{flex:1}}
