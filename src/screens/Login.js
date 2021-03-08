@@ -1,5 +1,5 @@
 import React,{ useState, useRef, useEffect,useContext } from "react"
-import {ProgressContext} from "../contexts"
+import {ProgressContext, UserContext} from "../contexts"
 import styled from "styled-components/native"
 import {Text} from "react-native";
 import {Image, Input, Button} from "../components"
@@ -36,8 +36,11 @@ const Login  = ({navigation}) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [disabled, setDisabled] = useState(true)
     const passwordRef = useRef();
-    const {spinner} = useContext(ProgressContext)
+  
     const insets= useSafeAreaInsets();
+
+    const {dispatch} =  useContext(UserContext);
+    const {spinner} =  useContext(ProgressContext);
 
     useEffect(()=>{
         setDisabled(!(email && password && !errorMessage))
@@ -57,6 +60,7 @@ const Login  = ({navigation}) => {
         try{
             spinner.start();
             const user= await login({email, password});
+            dispatch(user)
             Alert.alert("login success", user.email)
         }catch(e){
             Alert.alert("login Error", e.message)

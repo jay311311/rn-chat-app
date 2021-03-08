@@ -34,6 +34,10 @@ export const login = async ({email, password}) =>{
     return user;
 }
 
+/*로그아웃*/
+export const logout = async()=>{
+    return await Auth.signOut();
+}
 
 /*회원가입 기능*/
 export const signup = async({email, password, photoUrl, name}) =>{

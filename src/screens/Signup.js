@@ -1,12 +1,14 @@
-import React,{useState, useEffect, useRef} from "react";
+import React,{useState, useEffect, useRef,useContext} from "react";
+import {ProgressContext, UserContext} from "../contexts"
 import styled from "styled-components/native"
 import {Text} from "react-native"
-import {Image, Input, Button} from "../components";
+import {Image, Input, Button, Spinner} from "../components";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 import {validateEmail, removeWhitespace} from "../utils/common";
 import {images} from "../utils/images"
 import {Alert} from "react-native";
 import {signup} from "../utils/firebase";
+
 
 
 const Container = styled.View`
@@ -35,6 +37,8 @@ const Signup =()=>{
     const [disabled, setDisabled] = useState(true);
     const [photoUrl, setPhotoUrl] = useState(images.person);
 
+    const { dispatch} = useContext(UserContext)
+    const {spinner} = useContext(ProgressContext)
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -67,11 +71,14 @@ const Signup =()=>{
 
     const _handleSignupButtonPress = async() =>{
         try{
+            spinner.start();
             const user= await signup({email, password});
-            console.log(user);
             Alert.alert("signup success", user.email)
+            dispatch(user)
         }catch(e){
             Alert.alert("signup error", e.message)
+        }finally{
+            spinner.stop();
         }
     };
 
@@ -80,7 +87,7 @@ const Signup =()=>{
             extraScrollHeight={20}
         >
             <Container>
-                <Text styled={{fontSize:30}}>signup Screen</Text>
+               
                 <Image 
                 rounded 
                 url={photoUrl} 

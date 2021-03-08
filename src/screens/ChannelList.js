@@ -4,14 +4,14 @@ import {Text, Button} from "react-native";
 
 const Container = styled.View`
     flex:1;
-    background-color:${({theme})=> theme.backgorund}; 
+    background-color:${({theme})=> theme.background}; 
 `
 
 const ChannelList =() =>{
     return(
         <Container>
             <Text style={{fontSize:24}}>ChannelList</Text>
-            <Button title="channel Creation(list)" onPress={()=> navigation.navigate("Channel Createion")}/>
+            <Button title="Channel Creation" onPress={()=> navigation.navigate("Channel Creation")}/>
         </Container>
     )
 }
