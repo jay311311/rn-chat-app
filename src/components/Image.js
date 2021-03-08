@@ -45,14 +45,14 @@ const PhotoButton = ({onPress}) =>{
     )
 }
 
-const Image =({url, imageStyle, rounded, showButton})=>{
+const Image =({url, imageStyle, rounded, showButton, onChangeImage})=>{
 
     useEffect(()=>{
         (async()=>{
             try{
                 if(Platform.OS === "ios"){
                     const { status } = await Permissions.askAsync(
-                        Permissions.CAMERA_ROLL);
+                        Permissions.CAMERA);
                         if(status !== "granted"){
                             Alert.alert(
                                 "PHORO PERMISSIONS",
@@ -71,7 +71,7 @@ const Image =({url, imageStyle, rounded, showButton})=>{
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes:ImagePicker.MediaTypeOptions.Images,
                 allowsEditing:true,
-                aspect:[1,1,],
+                aspect:[1,1],
                 quality:1,
             });
             if(!result.cancelled){

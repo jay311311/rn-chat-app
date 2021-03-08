@@ -5,6 +5,8 @@ import {Image, Input, Button} from "../components";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 import {validateEmail, removeWhitespace} from "../utils/common";
 import {images} from "../utils/images"
+import {Alert} from "react-native";
+import {signup} from "../utils/firebase";
 
 
 const Container = styled.View`
@@ -60,10 +62,18 @@ const Signup =()=>{
     },[name, email, password, passwordConfirm]);
 
     useEffect(()=>{
-        setDisabled(!(name && email && password && passwordConfirm && !errorMessage))
-    },[name, email, password, passwordConfirm]);
+        setDisabled(!( email && password  && !errorMessage))
+    },[email, password,!errorMessage ]);
 
-    const _handleSignupButtonPress = () =>{};
+    const _handleSignupButtonPress = async() =>{
+        try{
+            const user= await signup({email, password});
+            console.log(user);
+            Alert.alert("signup success", user.email)
+        }catch(e){
+            Alert.alert("signup error", e.message)
+        }
+    };
 
     return(
         <KeyboardAwareScrollView
@@ -75,7 +85,7 @@ const Signup =()=>{
                 rounded 
                 url={photoUrl} 
                 showButton
-                onChangeImage={URL => setPhotoUrl(url)}
+                onChangeImage={url => setPhotoUrl(url)}
                 />
                 <Input
                 label="Name"
@@ -101,7 +111,7 @@ const Signup =()=>{
                 <Input
                 ref={passwordRef}
                 label="PASSWORD"
-                value={email}
+                value={password}
                 onChangeText={text => setPassword(removeWhitespace(text))}
                 onSubmitEditing={()=> passwordConfirmRef.current.focus()}
                 placeholder="password"

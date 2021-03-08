@@ -1,5 +1,7 @@
 export const validateEmail = email => {
-    const regex = /^[0-9?A-z0-9?]+(\.)?[0-9?A-z0-9?] +@[0-9?A-z]+\.[A-z]{2}.?[A-z]{0,3}$/;
+    /*이메일 정규식*/
+    const regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
     return regex.test(email);
 }
 
